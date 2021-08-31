@@ -1,17 +1,20 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
-import VideoPlayer from '../component/video-player/video-player';
-import VideoOverlay from '../component/video-overlay/video-overlay';
+import Head from 'next/head';
 import React, { useState } from 'react';
+import VideoPlayer from '../component/video-player';
+import VideoOverlay from '../component/video-overlay';
+import styles from '../styles/Home.module.css';
+
 
 const Home = () => {
+  const [startTime, setStartTime] = useState(1630430724714);
+  const [controls, setControls] = useState (true)
   const [ended, setEnded] = useState(false)
-  const [startTime, setStartTime] = useState("1:55");
-  const [controls, setControls] = useState (true);
+  
   
   let date = new Date();
-  let currentTime =  `${date.getHours()} : ${date.getMinutes()}}`
-  let timePlayed = currentTime - startTime;
+  let currentTime =  date.getTime()
+  let timePlayed = ( currentTime - startTime ) % 1000;
+
 
   const endVideo = () => {
     setControls(false);
@@ -19,9 +22,9 @@ const Home = () => {
   }
 
   const restartLive = () => {
-    let newStartTime = date.getSeconds();
-    setEnded(false);
+    let newStartTime = date.getTime(); 
     setStartTime(newStartTime)
+    setEnded(false);
   }
 
 
@@ -36,13 +39,17 @@ const Home = () => {
 
       <main className={styles.main}>
         <div className= 'live-event-container'>
+
+          {/* Our VideoPlayer component */}
+
           <VideoPlayer ended = {ended} timePlayed = {timePlayed} controls= {controls} endVideo= {endVideo}/>
             {
               ended ? <VideoOverlay /> : null
             }
         </div>
         
-        
+        {/* Our Restart button */}
+
         <button className= 'reset-button' onClick = {restartLive}>Restart Live Simmulation</button>
 
       </main>
