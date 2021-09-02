@@ -1,12 +1,12 @@
 import Head from 'next/head';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import VideoPlayer from '../component/video-player';
 import VideoOverlay from '../component/video-overlay';
 import styles from '../styles/Home.module.css';
 
 
 const Home = () => {
-  const [startTime, setStartTime] = useState(1630511518373);
+  const [startTime, setStartTime] = useState(1630554630653);
   const [controls, setControls] = useState (true)
   const [ended, setEnded] = useState(false)
   const [duration, setDuration] = useState(null)
@@ -24,8 +24,13 @@ const Home = () => {
 
 
   const endVideo = () => {
+    if (controls === false || ended === true) {
+    return
+    
+  } else {
     setControls(false);
     setEnded(true)
+  }
   }
 
 
@@ -35,6 +40,9 @@ const Home = () => {
     setStartTime(newStartTime)
     setEnded(false);
   }
+
+
+
 
   if (timePlayed > duration){
     endVideo()
