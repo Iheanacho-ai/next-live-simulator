@@ -6,9 +6,10 @@ import styles from '../styles/Home.module.css';
 
 
 const Home = () => {
-  const [startTime, setStartTime] = useState(1630430724714);
+  const [startTime, setStartTime] = useState(1630511518373);
   const [controls, setControls] = useState (true)
   const [ended, setEnded] = useState(false)
+  const [duration, setDuration] = useState(null)
   
   
   let date = new Date();
@@ -16,15 +17,27 @@ const Home = () => {
   let timePlayed = ( currentTime - startTime ) % 1000;
 
 
+  
+  const videoDuration = num => {
+    setDuration( num )
+  }
+
+
   const endVideo = () => {
     setControls(false);
     setEnded(true)
   }
 
+
   const restartLive = () => {
-    let newStartTime = date.getTime(); 
+    let newDate = new Date();
+    let newStartTime = newDate.getTime(); 
     setStartTime(newStartTime)
     setEnded(false);
+  }
+
+  if (timePlayed > duration){
+    endVideo()
   }
 
 
@@ -42,7 +55,7 @@ const Home = () => {
 
           {/* Our VideoPlayer component */}
 
-          <VideoPlayer ended = {ended} timePlayed = {timePlayed} controls= {controls} endVideo= {endVideo}/>
+          <VideoPlayer ended = {ended} timePlayed = {timePlayed} controls= {controls} endVideo= {endVideo} videoDuration= {videoDuration}/>
             {
               ended ? <VideoOverlay /> : null
             }
